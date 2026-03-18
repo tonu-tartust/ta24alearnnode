@@ -4,11 +4,10 @@ import { ref } from 'vue';
 
 let joke = ref('');
 
-let req = fetch('https://api.chucknorris.io/jokes/random').then(res => {  
-    return res.json();
-}).then(data => {
-    joke.value = data.value;
-});
+let res = await fetch('https://api.chucknorris.io/jokes/random');
+let data = await res.json();
+joke.value = data.value;
+
 
 </script>
 
