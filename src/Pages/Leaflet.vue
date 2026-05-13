@@ -1,58 +1,32 @@
 <script setup>
+import { ref } from 'vue'
+import LeafletMap from '../Components/LeafletMap.vue'
 
-  import * as L from 'leaflet';
-  import 'leaflet/dist/leaflet.css';
-  import { onMounted, ref } from 'vue';
+let center = ref([59.42699, 24.74368]);
 
-  let map;
-
-  onMounted(() => {
-    // Initialize map FIRST
-    map = L.map('map').setView([59.42688887801166, 24.74410854714832], 18);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    let coords = ref({ lat: 0, lng: 0 });
-    let location = null;
-
-    if ("geolocation" in navigator) {
-
-      setInterval(() => { 
-          navigator.geolocation.getCurrentPosition((position) => {
+let coords = ref([0, 0]);
+if ("geolocation" in navigator) {
+    setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
             console.log(position.coords.latitude, position.coords.longitude);
-            coords.value.lat = position.coords.latitude;
-            coords.value.lng = position.coords.longitude;
-            if (location) {
-              location.setLatLng([coords.value.lat, coords.value.lng]).update();
-            } else {
-              location = L.marker([coords.value.lat, coords.value.lng]).addTo(map);
-            }
-            
-          });
-      }, 1000);
-
-    } else {
-      /* geolocation IS NOT available */
-    }
-
-   // L.marker([59.42688887801166, 24.74410854714832]).addTo(map);
-    
-
-  });
+            coords.value = [position.coords.latitude, position.coords.longitude]
+        });
+    }, 1000);
+} else {
+    /* geolocation IS NOT available */
+}
 
 </script>
 
 <template>
+  <button class="button is-primary" @click="center = [57.76174545532467, 26.62421834241272]">Go to Lits</button>
+  <button class="button is-primary" @click="center = [59.42686455556196, 24.74402846621822]">Go to Pommi auk</button>
+  <button class="button is-primary" @click="center = [58.8737829402902, 24.502557851331385]">Go to Maaka kodu</button>
 
-   <div id="map"></div>
-
+  <LeafletMap :center="center" :zoom="18" :marker="coords"></LeafletMap>
 </template>
-<style>
 
-  #map {
-    height: 800px;
-    
-  }
-  </style>
+<style>
+</style>
+
+
