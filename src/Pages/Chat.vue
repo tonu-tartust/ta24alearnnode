@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import MessageList from "../components/MessageList.vue";
+import MessageList from "../Components/MessageList.vue";
 import axios from "axios";
 
 let name = ref("");

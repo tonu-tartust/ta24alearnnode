@@ -11,8 +11,8 @@ import Modals from "./Pages/Modals.vue";
 import Messages from "./Pages/Messages.vue";
 import Buttons from "./Pages/Buttons.vue";
 import ChuckNorris from "./Pages/ChuckNorris.vue";
-import RickAndMorty from "./Pages/RickAndMorty.vue";  
-import CanvasExample from './Pages/CanvasExample.vue';
+import RickAndMorty from "./Pages/RickAndMorty.vue";
+import CanvasExample from "./Pages/CanvasExample.vue";
 import WebApis from "./Pages/WebApis.vue";
 import Leaflet from "./Pages/Leaflet.vue";
 import Chat from "./Pages/Chat.vue";
@@ -24,10 +24,10 @@ const routes = [
   { path: "/buttons", component: Buttons, name: "Buttons" },
   { path: "/chuck", component: ChuckNorris, name: "Chuck Norris" },
   { path: "/rickandmorty", component: RickAndMorty, name: "Rick and Morty" },
-  { path: '/canvas', component: CanvasExample, name: 'Canvas' },
+  { path: "/canvas", component: CanvasExample, name: "Canvas" },
   { path: "/webapis", component: WebApis, name: "Web APIs" },
   { path: "/leaflet", component: Leaflet, name: "Leaflet" },
-  { path: "/chat", component: Chat, name: "Chat" }
+  { path: "/chat", component: Chat, name: "Chat" },
 ];
 
 export const router = createRouter({
