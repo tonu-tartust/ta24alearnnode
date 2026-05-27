@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import MessageList from "../Components/MessageList.vue";
+import MessageList from "../components/MessageList.vue";
 import axios from "axios";
 
 let name = ref("");
@@ -9,9 +9,15 @@ let nameSet = ref(false);
 let messages = ref([]);
 let message = ref("");
 
-function joinChat() {
+async function joinChat() {
     nameSet.value = true;
-    setInterval(() => {
+
+    axios.get("http://localhost:8080/api/messages").then((res) => {
+        messages.value.push(
+            ...res.data.map((m) => ({ ...m, isMe: m.name === name.value })),
+        );
+    });
+    while (true) {
         let params = {};
         if (messages.value.length !== 0) {
             params.date = new Date(
@@ -19,24 +25,17 @@ function joinChat() {
             ).toISOString();
         }
 
-        axios
-            .get("http://localhost:8080/api/messages", {
+        try {
+            let res = await axios.get("http://localhost:8080/api/messages", {
                 params: params,
-            })
-            .then((res) => {
-                messages.value.push(
-                    ...res.data.map((m) => ({
-                        ...m,
-                        isMe: m.name === name.value,
-                    })),
-                );
             });
-    }, 1000);
-    axios.get("http://localhost:8080/api/messages").then((res) => {
-        messages.value.push(
-            ...res.data.map((m) => ({ ...m, isMe: m.name === name.value })),
-        );
-    });
+            messages.value.push(
+                ...res.data.map((m) => ({ ...m, isMe: m.name === name.value })),
+            );
+        } catch (e) {
+            continue;
+        }
+    }
 }
 
 function send() {
